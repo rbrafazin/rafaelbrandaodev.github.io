@@ -73,6 +73,31 @@ document.addEventListener('click', function (e) {
 
 var menosMovimento = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
+// linha que se digita sozinha (topo da página inicial): apaga e escreve cada trecho de data-digitando, em laço.
+// O texto completo está num .so-leitor ao lado; com movimento reduzido, fica parado no primeiro trecho
+var digitando = document.querySelector('[data-digitando]');
+if (digitando && !menosMovimento) {
+  var trechos = digitando.getAttribute('data-digitando').split('|');
+  var trecho = 0, letras = trechos[0].length, apagando = true;
+  function digitar() {
+    var atual = trechos[trecho];
+    if (apagando) {
+      letras--;
+      if (letras <= 0) { apagando = false; trecho = (trecho + 1) % trechos.length; }
+    } else {
+      letras++;
+      if (letras >= trechos[trecho].length) {
+        digitando.textContent = trechos[trecho];
+        apagando = true;
+        return setTimeout(digitar, 2200);
+      }
+    }
+    digitando.textContent = trechos[trecho].slice(0, Math.max(letras, 0));
+    setTimeout(digitar, apagando ? 35 : 70);
+  }
+  setTimeout(digitar, 2200);
+}
+
 // entrada ao rolar: só o que começa abaixo da primeira tela, para nada piscar ao carregar;
 // blocos irmãos entram em sequência, com um pequeno atraso entre eles
 if (!menosMovimento && 'IntersectionObserver' in window) {
@@ -97,46 +122,6 @@ if (!menosMovimento && 'IntersectionObserver' in window) {
     el.classList.add('revelar');
     revelarObs.observe(el);
   });
-}
-
-// capas da página inicial em camadas: ao rolar, a peça anda um pouco mais que a tela principal;
-// com mouse, a capa inclina seguindo o cursor
-var capas = Array.prototype.slice.call(document.querySelectorAll('.projeto .capa'));
-if (capas.length && !menosMovimento) {
-  var camadaAgendada = false;
-  function camadas() {
-    camadaAgendada = false;
-    var altura = window.innerHeight;
-    capas.forEach(function (c) {
-      var r = c.getBoundingClientRect();
-      var desloc = ((r.top + r.height / 2) - altura / 2) / altura;
-      // até 28px para cima ou para baixo, em px inteiros para o texto da captura não borrar
-      c.style.setProperty('--desloc', Math.round(Math.max(-1, Math.min(1, desloc)) * 28) + 'px');
-    });
-  }
-  window.addEventListener('scroll', function () {
-    if (camadaAgendada) return;
-    camadaAgendada = true;
-    requestAnimationFrame(camadas);
-  }, { passive: true });
-  camadas();
-
-  if (window.matchMedia('(hover: hover) and (pointer: fine)').matches) {
-    capas.forEach(function (c) {
-      var projeto = c.closest('.projeto');
-      projeto.addEventListener('mousemove', function (e) {
-        var r = c.getBoundingClientRect();
-        var x = Math.max(-.5, Math.min(.5, (e.clientX - r.left) / r.width - .5));
-        var y = Math.max(-.5, Math.min(.5, (e.clientY - r.top) / r.height - .5));
-        c.style.setProperty('--ry', (x * 8).toFixed(2) + 'deg');
-        c.style.setProperty('--rx', (-y * 6).toFixed(2) + 'deg');
-      });
-      projeto.addEventListener('mouseleave', function () {
-        c.style.setProperty('--ry', '0deg');
-        c.style.setProperty('--rx', '0deg');
-      });
-    });
-  }
 }
 
 // carrossel: a rolagem lateral já funciona sem script; aqui entram as setas e um ponto por página

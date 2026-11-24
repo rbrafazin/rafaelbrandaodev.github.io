@@ -3,37 +3,41 @@
 @font-face{font-family:'Manrope';font-style:normal;font-weight:200 800;font-display:swap;src:url('../fontes/manrope.woff2') format('woff2')}
 
 :root{
-  --navy-0:#070F1C;
-  --navy:#0B1A2E;
-  --navy-2:#10284A;
-  --fundo:#FFFFFF;
-  --fundo-suave:#F8FAFC;   /* igual ao fundo das telas dos projetos: as capturas se fundem nele */
-  --tinta:#0F1E30;
-  --texto-2:#4F5E70;       /* 6,6:1 no branco; 6,3:1 no fundo suave */
-  --no-escuro:#E6EDF6;
-  --no-escuro-2:#A9BDD5;   /* 9,1:1 no navy */
-  --acao:#2563EB;          /* 4,9:1 no fundo suave; sobre o navy só como preenchimento */
-  --acao-forte:#1D4ED8;
-  --destaque:#7CB7FF;      /* ênfase e foco sobre o navy (8,4:1) */
-  --borda:#E2E8F0;
-  --etiqueta-fundo:#E8F0FB;
-  --etiqueta-tinta:#1E3A5F; /* 10,0:1 no fundo da etiqueta */
-  --borda-no-escuro:rgba(255,255,255,.38);  /* 3,4:1 sobre o navy: contorno de controles */
+  /* fundo azul-marinho bem escuro, com o azul elétrico como cor de destaque */
+  --navy-0:#030810;
+  --navy:#08131F;
+  --navy-2:#11243A;
+  --fundo:#06101C;
+  --superficie:#0B1A2B;     /* cartões e seções que se destacam do fundo */
+  --superficie-2:#11243A;
+  --fundo-suave:#F8FAFC;    /* o fundo das telas dos projetos: a sobra das janelas .iguais some nele */
+  --tinta:#E6F0FA;          /* texto principal: 16,6:1 no fundo */
+  --texto-2:#9FB3C8;        /* texto secundário: 8,9:1 no fundo */
+  --no-escuro:#E6F0FA;
+  --no-escuro-2:#9FB3C8;
+  --acao:#38BDF8;           /* preenchimento de botão, com texto --sobre-acao: 8,9:1 */
+  --acao-forte:#7DD3FC;
+  --sobre-acao:#04111F;
+  --destaque:#38BDF8;       /* texto de destaque, links e foco: 8,9:1 no fundo */
+  --borda:rgba(255,255,255,.08);
+  --etiqueta-fundo:rgba(14,165,233,.16);
+  --etiqueta-tinta:#BAE6FD; /* 11,5:1 sobre a etiqueta */
+  --borda-no-escuro:rgba(255,255,255,.38);  /* contorno de controles */
   --raio:12px;
 }
 *{margin:0;padding:0;box-sizing:border-box}
-html{scroll-behavior:smooth;scrollbar-color:#9AAABB var(--fundo-suave);accent-color:var(--acao)}
+html{scroll-behavior:smooth;scrollbar-color:#1E3A52 var(--fundo);accent-color:var(--acao)}
 html:has(dialog[open]){overflow:hidden}
 body{
   font-family:'Manrope',-apple-system,'Segoe UI',Roboto,'Helvetica Neue',Arial,sans-serif;
   font-size:17px;line-height:1.6;color:var(--tinta);background:var(--fundo);
-  -webkit-font-smoothing:antialiased;caret-color:var(--acao);
+  -webkit-font-smoothing:antialiased;caret-color:var(--destaque);
 }
 ::selection{background:var(--destaque);color:var(--navy-0)}
 a{color:inherit}
 img{max-width:100%;height:auto;display:block}
 button{font:inherit;color:inherit}
-:focus-visible{outline:2px solid var(--acao);outline-offset:3px;border-radius:6px}
+:focus-visible{outline:2px solid var(--destaque);outline-offset:3px;border-radius:6px}
 /* a nav, o rodapé e a tela ampliada são escuros sem levar a classe .escuro */
 .escuro :focus-visible,.nav :focus-visible,footer :focus-visible,.lightbox :focus-visible{outline-color:var(--destaque)}
 h1,h2,h3{text-wrap:balance}
@@ -41,7 +45,7 @@ p{text-wrap:pretty}
 ul{list-style:none}
 
 .so-leitor{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap}
-.pular{position:fixed;top:12px;left:12px;z-index:70;padding:10px 16px;border-radius:10px;background:#fff;color:var(--tinta);font-weight:600;text-decoration:none;transform:translateY(-200%)}
+.pular{position:fixed;top:12px;left:12px;z-index:70;padding:10px 16px;border-radius:10px;background:var(--acao);color:var(--sobre-acao);font-weight:600;text-decoration:none;transform:translateY(-200%)}
 .pular:focus{transform:none}
 
 .container{max-width:1160px;margin:0 auto;padding:0 24px}
@@ -57,7 +61,7 @@ section{padding:104px 0 96px;scroll-margin-top:64px}
 /* ---------- nav ---------- */
 .nav{position:fixed;top:0;left:0;right:0;z-index:60;border-bottom:1px solid transparent;transition:background .25s,border-color .25s}
 /* sem backdrop-filter: com o fundo a 97% o desfoque não aparece, e ele seria refeito a cada quadro da rolagem */
-.nav.rolado{background:rgba(7,15,28,.97);border-bottom-color:rgba(255,255,255,.08)}
+.nav.rolado{background:rgba(6,16,28,.95);border-bottom-color:rgba(255,255,255,.08)}
 .nav .container{display:flex;align-items:center;gap:24px;height:68px}
 .marca{color:#fff;font-weight:800;font-size:18px;letter-spacing:-.01em;text-decoration:none;margin-right:auto;padding:8px 0}
 .nav-links{display:flex;align-items:center;gap:4px;font-size:15px;font-weight:500;color:rgba(255,255,255,.8)}
@@ -65,21 +69,25 @@ section{padding:104px 0 96px;scroll-margin-top:64px}
 .nav-links a:hover,.nav-links a.ativo{color:#fff;background:rgba(255,255,255,.08)}
 .nav-toggle{display:none;width:44px;height:44px;border-radius:10px;border:1px solid var(--borda-no-escuro);background:none;color:#fff;cursor:pointer;align-items:center;justify-content:center}
 @media (max-width:800px){
-  .nav{background:rgba(7,15,28,.94)}
+  .nav{background:rgba(6,16,28,.94)}
   .nav .container{height:60px}
   .nav-toggle{display:inline-flex}
-  .nav-links{display:none;position:absolute;top:60px;left:0;right:0;flex-direction:column;align-items:stretch;gap:2px;background:rgba(7,15,28,.98);padding:8px 16px 16px;border-bottom:1px solid rgba(255,255,255,.08)}
+  .nav-links{display:none;position:absolute;top:60px;left:0;right:0;flex-direction:column;align-items:stretch;gap:2px;background:rgba(6,16,28,.98);padding:8px 16px 16px;border-bottom:1px solid rgba(255,255,255,.08)}
   .nav-links.aberto{display:flex}
   .nav-links a{padding:13px 12px;font-size:16px}
 }
 
 /* ---------- topo escuro ---------- */
-.topo{color:#fff;padding:176px 0 104px;background:linear-gradient(180deg,var(--navy-0) 0%,var(--navy) 60%,var(--navy-2) 100%)}
+/* brilho azul atrás do título, sobre o fundo */
+.topo{color:#fff;padding:176px 0 104px;background:
+  radial-gradient(55% 65% at 18% 35%,rgba(14,165,233,.38),transparent 70%),
+  radial-gradient(40% 50% at 92% 85%,rgba(56,189,248,.12),transparent 70%),
+  var(--fundo)}
 .topo h1{font-size:60px;font-weight:800;line-height:1.04;letter-spacing:-.032em;margin-bottom:24px;max-width:15ch}
 .topo .sub{font-size:19px;color:var(--no-escuro-2);max-width:58ch}
 .acoes{display:flex;flex-wrap:wrap;gap:12px;margin-top:36px}
 .btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:10px;border:1px solid transparent;font-size:16px;font-weight:600;text-decoration:none;cursor:pointer;transition:background .15s,border-color .15s}
-.btn-primario{background:var(--acao);color:#fff}
+.btn-primario{background:var(--acao);color:var(--sobre-acao)}
 .btn-primario:hover{background:var(--acao-forte)}
 .btn-secundario{background:none;color:var(--no-escuro);border-color:var(--borda-no-escuro)}
 .btn-secundario:hover{border-color:rgba(255,255,255,.62);background:rgba(255,255,255,.05)}
@@ -91,14 +99,14 @@ section{padding:104px 0 96px;scroll-margin-top:64px}
 
 /* ---------- aparelhos: cada tela aparece onde o sistema roda ---------- */
 /* janela de navegador, tablet ou celular, com a tela inteira reduzida dentro; o clique abre a tela no tamanho real */
-.janela,.tablet,.celular{display:block;width:100%;padding:0;text-align:left;box-shadow:0 1px 3px rgba(15,30,48,.1),0 14px 32px -14px rgba(15,30,48,.28)}
+.janela,.tablet,.celular{display:block;width:100%;padding:0;text-align:left;box-shadow:0 30px 70px -30px rgba(0,0,0,.9)}
 .janela img,.tablet img,.celular img{display:block;width:100%}
-.janela{border-radius:var(--raio);overflow:hidden;background:var(--fundo-suave);border:1px solid rgba(15,30,48,.12)}
+.janela{border-radius:var(--raio);overflow:hidden;background:var(--fundo-suave);border:1px solid rgba(255,255,255,.1)}
 .janela-barra{display:flex;align-items:center;height:30px;padding:0 40px 0 12px;background:#EDF1F6;border-bottom:1px solid var(--borda);font-size:12px;font-weight:600;color:var(--texto-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .janela-barra::before{content:"";flex:none;width:7px;height:7px;border-radius:50%;background:#C3CCD8;box-shadow:12px 0 #C3CCD8,24px 0 #C3CCD8;margin-right:38px}
-.tablet{padding:10px;border-radius:22px;background:var(--tinta);border:1px solid rgba(255,255,255,.14)}
+.tablet{padding:10px;border-radius:22px;background:#02060C;border:1px solid rgba(255,255,255,.14)}
 .tablet img{border-radius:8px}
-.celular{padding:7px;border-radius:26px;background:var(--tinta);border:1px solid rgba(255,255,255,.14)}
+.celular{padding:7px;border-radius:26px;background:#02060C;border:1px solid rgba(255,255,255,.14)}
 .celular img{border-radius:19px}
 
 /* composição de capa: uma tela principal e uma peça sobreposta, diferente em cada projeto */
@@ -116,7 +124,7 @@ section{padding:104px 0 96px;scroll-margin-top:64px}
 /* a lupa avisa que a captura abre maior; no toque não existe cursor para avisar */
 .ampliavel::after{
   content:"";position:absolute;right:12px;bottom:12px;width:36px;height:36px;border-radius:50%;
-  background:rgba(11,26,46,.84) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6'/%3E%3Cpath d='M15 15l4.5 4.5M10.5 8v5M8 10.5h5'/%3E%3C/svg%3E") center/20px no-repeat;
+  background:rgba(6,16,28,.84) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='10.5' cy='10.5' r='6'/%3E%3Cpath d='M15 15l4.5 4.5M10.5 8v5M8 10.5h5'/%3E%3C/svg%3E") center/20px no-repeat;
   transition:background-color .15s;
 }
 .ampliavel:hover::after,.ampliavel:focus-visible::after{background-color:var(--acao)}
@@ -131,10 +139,10 @@ footer .direita{margin-left:auto}
 
 /* ---------- tela ampliada ---------- */
 .lightbox{border:0;padding:0;background:transparent;max-width:min(1600px,calc(100vw - 168px));max-height:92vh;margin:auto}
-.lightbox::backdrop{background:rgba(5,10,20,.94)}
+.lightbox::backdrop{background:rgba(3,8,16,.95)}
 .lightbox img{max-height:84vh;width:auto;border-radius:10px}
 .lightbox figcaption{color:var(--no-escuro);font-size:15px;text-align:center;margin-top:12px}
-.lightbox button{position:fixed;width:44px;height:44px;border-radius:50%;cursor:pointer;border:1px solid var(--borda-no-escuro);background:rgba(11,26,46,.84);color:#fff;display:flex;align-items:center;justify-content:center}
+.lightbox button{position:fixed;width:44px;height:44px;border-radius:50%;cursor:pointer;border:1px solid var(--borda-no-escuro);background:rgba(6,16,28,.84);color:#fff;display:flex;align-items:center;justify-content:center}
 .lightbox button:hover{background:var(--acao);border-color:transparent}
 .lightbox .fechar{top:16px;right:16px}
 .lightbox .passo{top:50%;transform:translateY(-50%)}

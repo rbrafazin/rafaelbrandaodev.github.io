@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Rafael Brandão — Portfólio</title>
 <meta name="description" content="Portfólio de Rafael Brandão: sistemas internos sob medida, desenvolvidos de ponta a ponta com Python, Django e Flask.">
-<meta name="theme-color" content="#070F1C">
+<meta name="theme-color" content="#06101C">
 <link rel="icon" href="assets/icones/icone.svg" type="image/svg+xml">
 <link rel="icon" href="assets/icones/icone-32.png" type="image/png" sizes="32x32">
 <link rel="apple-touch-icon" href="assets/icones/icone-180.png">
@@ -35,44 +35,46 @@
   .topo h1{max-width:none;font-size:clamp(34px,5.4vw,76px);line-height:1;letter-spacing:-.036em;margin-bottom:32px}
   .topo .sub{font-size:clamp(17px,1.5vw,21px);max-width:54ch}
 
-  /* projetos: um por linha, com a captura alternando de lado */
-  #projetos{background:var(--fundo-suave);border-bottom:1px solid var(--borda)}
+  /* projetos: cartões em grade, três lado a lado. Em cima a capa (tela principal e uma peça sobreposta),
+     sobre um brilho azul; embaixo o número, o nome, o texto e as tecnologias. Ao passar o mouse o cartão
+     sobe e a borda acende */
+  #projetos{background:var(--fundo);border-bottom-color:rgba(255,255,255,.06)}
+  .projetos{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px;counter-reset:projeto}
+  /* subgrid: a capa e o texto de cada cartão ocupam as mesmas duas linhas da grade, então os nomes
+     dos três projetos começam na mesma altura, mesmo com capas de alturas diferentes */
+  .projeto{
+    display:grid;grid-row:span 2;grid-template-rows:subgrid;row-gap:0;border-radius:20px;overflow:hidden;text-decoration:none;color:inherit;
+    background:radial-gradient(90% 55% at 50% 0%,rgba(56,189,248,.2),transparent 70%),linear-gradient(180deg,var(--superficie-2),var(--superficie));
+    border:1px solid rgba(56,189,248,.14);
+    transition:transform .35s cubic-bezier(.16,1,.3,1),border-color .35s,box-shadow .35s;
+  }
+  .projeto:hover{transform:translateY(-6px);border-color:rgba(56,189,248,.55);box-shadow:0 30px 60px -28px rgba(14,165,233,.45)}
+  /* as imagens da capa são decorativas: o nome do projeto já dá nome ao link */
+  .projeto .capa{margin:28px 24px 0;align-self:end}
   /* aqui a peça da capa do sistema de T.I é o histórico do chamado, legível: precisa de mais espaço */
   .projeto .capa-ti .capa-peca{width:54%}
-  .projetos{display:flex;flex-direction:column;gap:96px}
-  .projeto{
-    display:grid;grid-template-columns:minmax(0,7fr) minmax(0,5fr);gap:48px;align-items:center;
-    text-decoration:none;color:inherit;
-  }
-  .projeto:nth-child(even){grid-template-columns:minmax(0,5fr) minmax(0,7fr)}
-  .projeto:nth-child(even) .capa{order:2}
-  /* as imagens da capa são decorativas: o nome do projeto já dá nome ao link */
-  /* capa em camadas: ao rolar, a peça anda um pouco mais que a tela principal (--desloc, em px inteiros,
-     vem do site.js); no computador, a capa inclina seguindo o mouse (--rx, --ry) e a peça avança para a
-     frente. Em repouso a peça fica no plano da tela: à frente, ela seria ampliada e o texto borraria */
-  .projeto .capa{--sobe:0px;--rx:0deg;--ry:0deg;--desloc:0px;transform:translateY(var(--sobe)) perspective(1400px) rotateX(var(--rx)) rotateY(var(--ry));transform-style:preserve-3d;transition:transform .6s cubic-bezier(.16,1,.3,1)}
-  .projeto:hover .capa{--sobe:-4px}
-  /* o deslocamento da rolagem (translate) acompanha o scroll na hora, sem transição: com transição a peça
-     ficaria correndo atrás da página. A transição suave fica só para o avanço sob o mouse (transform) */
-  .projeto .capa-peca{translate:0 var(--desloc);transition:transform .6s cubic-bezier(.16,1,.3,1)}
-  .projeto:hover .capa-peca{transform:translate3d(0,-6px,56px)}
-  .projeto h3{font-size:30px;font-weight:800;line-height:1.15;letter-spacing:-.025em;margin-bottom:12px}
-  .projeto p{color:var(--texto-2);margin-bottom:20px}
-  .tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:28px}
-  .tags li{font-size:14px;font-weight:500;color:#1E3A5F;background:#E8F0FB;border-radius:6px;padding:3px 10px}
-  .ver{display:inline-flex;align-items:center;gap:8px;font-weight:600;color:var(--acao);font-size:17px}
-  .projeto:hover .ver{color:var(--acao-forte);text-decoration:underline;text-underline-offset:4px}
-  @media (max-width:880px){
-    .projetos{gap:72px}
-    .projeto,.projeto:nth-child(even){grid-template-columns:1fr;gap:28px}
-    .projeto:nth-child(even) .capa{order:0}
-  }
+  .projeto > div{display:flex;flex-direction:column;padding:24px 26px 26px}
+  .projeto h3{font-size:23px;font-weight:800;line-height:1.2;letter-spacing:-.02em;margin-bottom:10px;color:#fff}
+  .projeto h3::before{counter-increment:projeto;content:"Projeto " counter(projeto,decimal-leading-zero);display:block;margin-bottom:6px;font-size:13px;font-weight:600;letter-spacing:.02em;color:var(--destaque)}
+  .projeto p{font-size:15.5px;color:var(--texto-2);margin-bottom:18px}
+  .tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:22px}
+  .tags li{font-size:13px;font-weight:500;border-radius:6px;padding:2px 9px;color:#BAE6FD;background:rgba(14,165,233,.16);border:1px solid rgba(56,189,248,.22)}
+  /* o link fica no pé do cartão, alinhado entre os três */
+  .ver{display:inline-flex;align-items:center;gap:8px;margin-top:auto;font-weight:600;font-size:16px;color:var(--destaque)}
+  .projeto:hover .ver{color:#7DD3FC;text-decoration:underline;text-underline-offset:4px}
+  .ver svg{transition:transform .35s cubic-bezier(.16,1,.3,1)}
+  .projeto:hover .ver svg{transform:translateX(4px)}
+  .janela{border-color:rgba(255,255,255,.1)}
+  .janela,.tablet,.celular{box-shadow:0 24px 50px -24px rgba(0,0,0,.9)}
+  @media (max-width:1100px){.projetos{grid-template-columns:repeat(2,minmax(0,1fr))}}
+  @media (max-width:700px){.projetos{grid-template-columns:minmax(0,1fr);gap:20px}.projeto .capa{margin:22px 18px 0}.projeto > div{padding:20px 20px 22px}}
+  @media (prefers-reduced-motion:reduce){.projeto,.projeto:hover,.ver svg,.projeto:hover .ver svg{transition:none;transform:none}}
   @media (max-width:800px){
     .topo{padding:96px 0 120px}
     .topo h1{margin-bottom:24px}
     .descer{bottom:28px}
   }
-  @media (prefers-reduced-motion:reduce){.projeto .capa,.projeto:hover .capa,.projeto .capa-peca,.projeto:hover .capa-peca{transform:none;translate:none;transition:none}.descer svg{animation:none}}
+  @media (prefers-reduced-motion:reduce){.descer svg{animation:none}}
 
   /* tecnologias */
   .tecnologias{display:grid;grid-template-columns:repeat(4,1fr);gap:0 40px}
@@ -82,10 +84,46 @@
   @media (max-width:880px){.tecnologias{grid-template-columns:repeat(2,1fr);gap:32px 24px}}
 
   /* contato */
-  #contato{background:var(--navy);color:var(--no-escuro)}
   #contato .titulo-sec{margin-bottom:28px}
   #contato .titulo-sec h2{color:#fff}
   #contato .titulo-sec p{color:var(--no-escuro-2)}
+
+  /* título brincalhão: a palavra circulada à mão e a linha que se digita sozinha */
+
+  .ola{font-size:clamp(16px,1.4vw,19px);color:var(--tinta);margin-bottom:20px}
+  .ola b{color:var(--destaque);font-weight:600}
+  /* a palavra circulada à mão: o traço se desenha ao carregar */
+  .circulada{position:relative;display:inline-block;background:linear-gradient(90deg,#BAE6FD,var(--destaque) 55%,#0EA5E9);-webkit-background-clip:text;background-clip:text;color:transparent}
+  .circulada svg{position:absolute;left:-6%;top:-24%;width:112%;height:150%;overflow:visible;pointer-events:none}
+  .circulada path{fill:none;stroke:#7DD3FC;stroke-width:2;stroke-linecap:round;vector-effect:non-scaling-stroke;stroke-dasharray:1;stroke-dashoffset:1;animation:traco 1.1s cubic-bezier(.65,0,.35,1) .5s forwards}
+  @keyframes traco{to{stroke-dashoffset:0}}
+  .provoca{font-size:15px;color:var(--texto-2);margin:-16px 0 44px}
+  /* a linha que se digita sozinha (o site.js troca as palavras) */
+  .digitando{font-size:clamp(22px,2.4vw,32px);font-weight:800;letter-spacing:-.02em;color:#fff;margin-bottom:16px}
+  .digitando [data-digitando]{color:var(--destaque)}
+  .cursor{display:inline-block;width:3px;height:1em;margin-left:3px;vertical-align:-.12em;background:var(--destaque);animation:pisca 1s steps(1) infinite}
+  @keyframes pisca{50%{opacity:0}}
+  .topo .sub{color:var(--texto-2)}
+  .descer a{color:var(--texto-2)}
+  .descer svg{color:var(--destaque)}
+
+
+  /* tecnologias: cada uma vira uma etiqueta com brilho */
+  #tecnologias{background:var(--fundo)}
+  #tecnologias .titulo-sec h2{color:#fff}
+  #tecnologias .titulo-sec p{color:var(--texto-2)}
+  .tecnologias div{border-top:1px solid rgba(56,189,248,.35)}
+  .tecnologias dt{color:#fff}
+  .tecnologias ul{display:flex;flex-wrap:wrap;gap:8px}
+  .tecnologias li{font-size:15px;line-height:1.5;color:var(--tinta);padding:5px 12px;border-radius:999px;background:rgba(14,165,233,.1);border:1px solid rgba(56,189,248,.25)}
+
+  /* contato: centralizado, sobre uma superfície um pouco mais clara */
+  #contato{text-align:center;background:radial-gradient(50% 80% at 50% 0%,rgba(14,165,233,.25),transparent 70%),var(--superficie)}
+  #contato .titulo-sec{margin-inline:auto}
+  #contato .titulo-sec p{color:var(--texto-2);margin-inline:auto}
+  #contato .acoes{justify-content:center}
+  footer{background:#030810}
+  @media (prefers-reduced-motion:reduce){.circulada path{animation:none;stroke-dashoffset:0}.cursor{animation:none}}
 </style>
 </head>
 <body>
@@ -109,7 +147,10 @@
 
   <div class="topo escuro">
     <div class="container">
-      <h1>Sistemas que nascem de necessidades reais</h1>
+      <p class="ola">Olá! Eu sou <b>Rafael Brandão</b></p>
+      <h1>Do problema ao sistema <span class="circulada">funcionando<svg viewBox="0 0 200 80" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M28 18C70 4 168 6 192 30C210 52 150 76 92 76C38 76 4 62 8 42C12 24 40 12 78 10"/></svg></span>...</h1>
+      <p class="provoca">Três projetos de verdade, e dois deles você pode testar aqui.</p>
+      <p class="digitando"><span class="so-leitor">Desenvolvo sistemas internos com Python, Django, Flask, Socket.IO, PostgreSQL e Docker.</span><span aria-hidden="true">Desenvolvo <span data-digitando="com Python|com Django e Flask|em tempo real com Socket.IO|com PostgreSQL e Docker">com Python</span><i class="cursor"></i></span></p>
       <p class="sub">Desenvolvo sistemas internos pensando além do código: nos processos, nas pessoas e nos problemas que precisam ser resolvidos. Aqui estão três projetos que construí de ponta a ponta para atender demandas reais.</p>
     </div>
     <div class="descer container">
@@ -124,7 +165,7 @@
 
       <div class="projetos">
       <a class="projeto" href="projetos/sistema-gestao-ti.html">
-        <span aria-hidden="true" class="capa capa-ti"><span class="janela capa-principal"><span class="janela-barra">Chamados</span><img src="assets/img/sistema-ti/chamados-fila.png" srcset="assets/img/sistema-ti/chamados-fila-160.webp 160w, assets/img/sistema-ti/chamados-fila-240.webp 240w, assets/img/sistema-ti/chamados-fila-320.webp 320w, assets/img/sistema-ti/chamados-fila-480.webp 480w, assets/img/sistema-ti/chamados-fila-640.webp 640w, assets/img/sistema-ti/chamados-fila-960.webp 960w, assets/img/sistema-ti/chamados-fila-1280.webp 1280w, assets/img/sistema-ti/chamados-fila-1920.webp 1920w, assets/img/sistema-ti/chamados-fila.png 2560w" sizes="(max-width:880px) 75vw, (max-width:1208px) 42vw, 495px" alt="" width="2560" height="1280" loading="lazy"></span><span class="janela capa-peca"><span class="janela-barra">Chamado #4</span><img src="assets/img/sistema-ti/historico-foco.png" srcset="assets/img/sistema-ti/historico-foco-160.webp 160w, assets/img/sistema-ti/historico-foco-240.webp 240w, assets/img/sistema-ti/historico-foco-320.webp 320w, assets/img/sistema-ti/historico-foco-480.webp 480w, assets/img/sistema-ti/historico-foco-640.webp 640w, assets/img/sistema-ti/historico-foco.png 800w" sizes="(max-width:880px) 51vw, (max-width:1208px) 28vw, 333px" alt="" width="800" height="500" loading="lazy"></span></span>
+        <span aria-hidden="true" class="capa capa-ti"><span class="janela capa-principal"><span class="janela-barra">Chamados</span><img src="assets/img/sistema-ti/chamados-fila.png" srcset="assets/img/sistema-ti/chamados-fila-160.webp 160w, assets/img/sistema-ti/chamados-fila-240.webp 240w, assets/img/sistema-ti/chamados-fila-320.webp 320w, assets/img/sistema-ti/chamados-fila-480.webp 480w, assets/img/sistema-ti/chamados-fila-640.webp 640w, assets/img/sistema-ti/chamados-fila-960.webp 960w, assets/img/sistema-ti/chamados-fila-1280.webp 1280w, assets/img/sistema-ti/chamados-fila-1920.webp 1920w, assets/img/sistema-ti/chamados-fila.png 2560w" sizes="(max-width:700px) 72vw, (max-width:1100px) 40vw, 245px" alt="" width="2560" height="1280" loading="lazy"></span><span class="janela capa-peca"><span class="janela-barra">Chamado #4</span><img src="assets/img/sistema-ti/historico-foco.png" srcset="assets/img/sistema-ti/historico-foco-160.webp 160w, assets/img/sistema-ti/historico-foco-240.webp 240w, assets/img/sistema-ti/historico-foco-320.webp 320w, assets/img/sistema-ti/historico-foco-480.webp 480w, assets/img/sistema-ti/historico-foco-640.webp 640w, assets/img/sistema-ti/historico-foco.png 800w" sizes="(max-width:700px) 47vw, (max-width:1100px) 27vw, 165px" alt="" width="800" height="500" loading="lazy"></span></span>
         <div>
           <h3>Sistema de gestão de T.I</h3>
           <p>Chamados, inventário de equipamentos, tarefas, agenda, relatórios e o almoxarifado e patrimônio de dois setores, com permissão por módulo e histórico de cada alteração.</p>
@@ -135,7 +176,7 @@
       </a>
 
       <a class="projeto" href="projetos/timer-estacoes.html">
-        <span aria-hidden="true" class="capa capa-timer"><span class="janela capa-principal"><span class="janela-barra">Painel central</span><img src="assets/img/timer-estacoes/painel.png" srcset="assets/img/timer-estacoes/painel-160.webp 160w, assets/img/timer-estacoes/painel-240.webp 240w, assets/img/timer-estacoes/painel-320.webp 320w, assets/img/timer-estacoes/painel-480.webp 480w, assets/img/timer-estacoes/painel-640.webp 640w, assets/img/timer-estacoes/painel-960.webp 960w, assets/img/timer-estacoes/painel-1280.webp 1280w, assets/img/timer-estacoes/painel-1920.webp 1920w, assets/img/timer-estacoes/painel.png 2400w" sizes="(max-width:880px) 75vw, (max-width:1208px) 42vw, 495px" alt="" width="2400" height="1500" loading="lazy"></span><span class="tablet capa-peca"><img src="assets/img/timer-estacoes/tablet-aviso.png" srcset="assets/img/timer-estacoes/tablet-aviso-160.webp 160w, assets/img/timer-estacoes/tablet-aviso-240.webp 240w, assets/img/timer-estacoes/tablet-aviso-320.webp 320w, assets/img/timer-estacoes/tablet-aviso-480.webp 480w, assets/img/timer-estacoes/tablet-aviso-640.webp 640w, assets/img/timer-estacoes/tablet-aviso-960.webp 960w, assets/img/timer-estacoes/tablet-aviso-1280.webp 1280w, assets/img/timer-estacoes/tablet-aviso-1920.webp 1920w, assets/img/timer-estacoes/tablet-aviso.png 2560w" sizes="(max-width:880px) 39vw, (max-width:1208px) 21vw, 251px" alt="" width="2560" height="1600" loading="lazy"></span></span>
+        <span aria-hidden="true" class="capa capa-timer"><span class="janela capa-principal"><span class="janela-barra">Painel central</span><img src="assets/img/timer-estacoes/painel.png" srcset="assets/img/timer-estacoes/painel-160.webp 160w, assets/img/timer-estacoes/painel-240.webp 240w, assets/img/timer-estacoes/painel-320.webp 320w, assets/img/timer-estacoes/painel-480.webp 480w, assets/img/timer-estacoes/painel-640.webp 640w, assets/img/timer-estacoes/painel-960.webp 960w, assets/img/timer-estacoes/painel-1280.webp 1280w, assets/img/timer-estacoes/painel-1920.webp 1920w, assets/img/timer-estacoes/painel.png 2400w" sizes="(max-width:700px) 72vw, (max-width:1100px) 40vw, 245px" alt="" width="2400" height="1500" loading="lazy"></span><span class="tablet capa-peca"><img src="assets/img/timer-estacoes/tablet-aviso.png" srcset="assets/img/timer-estacoes/tablet-aviso-160.webp 160w, assets/img/timer-estacoes/tablet-aviso-240.webp 240w, assets/img/timer-estacoes/tablet-aviso-320.webp 320w, assets/img/timer-estacoes/tablet-aviso-480.webp 480w, assets/img/timer-estacoes/tablet-aviso-640.webp 640w, assets/img/timer-estacoes/tablet-aviso-960.webp 960w, assets/img/timer-estacoes/tablet-aviso-1280.webp 1280w, assets/img/timer-estacoes/tablet-aviso-1920.webp 1920w, assets/img/timer-estacoes/tablet-aviso.png 2560w" sizes="(max-width:700px) 38vw, (max-width:1100px) 22vw, 135px" alt="" width="2560" height="1600" loading="lazy"></span></span>
         <div>
           <h3>Timer de estações</h3>
           <p>Cronômetros sincronizados em tempo real para avaliações em várias salas: um painel controla até 12 salas, e o tablet de cada sala mostra só o tempo dela, com avisos sonoros e reconexão automática.</p>
@@ -146,7 +187,7 @@
       </a>
 
       <a class="projeto" href="projetos/sorteio-evento.html">
-        <span aria-hidden="true" class="capa capa-sorteio"><span class="janela capa-principal"><span class="janela-barra">Painel de sorteio</span><img src="assets/img/sorteio-evento/vencedor-cartao.png" srcset="assets/img/sorteio-evento/vencedor-cartao-160.webp 160w, assets/img/sorteio-evento/vencedor-cartao-240.webp 240w, assets/img/sorteio-evento/vencedor-cartao-320.webp 320w, assets/img/sorteio-evento/vencedor-cartao-480.webp 480w, assets/img/sorteio-evento/vencedor-cartao-640.webp 640w, assets/img/sorteio-evento/vencedor-cartao-960.webp 960w, assets/img/sorteio-evento/vencedor-cartao.png 1000w" sizes="(max-width:880px) 68vw, (max-width:1208px) 38vw, 445px" alt="" width="1000" height="734" loading="lazy"></span><span class="celular capa-peca"><img src="assets/img/sorteio-evento/cadastro-foco.png" srcset="assets/img/sorteio-evento/cadastro-foco-160.webp 160w, assets/img/sorteio-evento/cadastro-foco-240.webp 240w, assets/img/sorteio-evento/cadastro-foco-320.webp 320w, assets/img/sorteio-evento/cadastro-foco-480.webp 480w, assets/img/sorteio-evento/cadastro-foco-640.webp 640w, assets/img/sorteio-evento/cadastro-foco.png 824w" sizes="(max-width:880px) 24vw, (max-width:1208px) 13vw, 152px" alt="" width="824" height="1480" loading="lazy"></span></span>
+        <span aria-hidden="true" class="capa capa-sorteio"><span class="janela capa-principal"><span class="janela-barra">Painel de sorteio</span><img src="assets/img/sorteio-evento/vencedor-cartao.png" srcset="assets/img/sorteio-evento/vencedor-cartao-160.webp 160w, assets/img/sorteio-evento/vencedor-cartao-240.webp 240w, assets/img/sorteio-evento/vencedor-cartao-320.webp 320w, assets/img/sorteio-evento/vencedor-cartao-480.webp 480w, assets/img/sorteio-evento/vencedor-cartao-640.webp 640w, assets/img/sorteio-evento/vencedor-cartao-960.webp 960w, assets/img/sorteio-evento/vencedor-cartao.png 1000w" sizes="(max-width:700px) 62vw, (max-width:1100px) 36vw, 220px" alt="" width="1000" height="734" loading="lazy"></span><span class="celular capa-peca"><img src="assets/img/sorteio-evento/cadastro-foco.png" srcset="assets/img/sorteio-evento/cadastro-foco-160.webp 160w, assets/img/sorteio-evento/cadastro-foco-240.webp 240w, assets/img/sorteio-evento/cadastro-foco-320.webp 320w, assets/img/sorteio-evento/cadastro-foco-480.webp 480w, assets/img/sorteio-evento/cadastro-foco-640.webp 640w, assets/img/sorteio-evento/cadastro-foco.png 824w" sizes="(max-width:700px) 23vw, (max-width:1100px) 14vw, 84px" alt="" width="824" height="1480" loading="lazy"></span></span>
         <div>
           <h3>Sorteio de evento</h3>
           <p>Cadastro pelo celular a partir de um QR Code e sorteio ao vivo por categoria, com validação de CPF, consentimento para uso dos dados, painel protegido e exportação para Excel.</p>

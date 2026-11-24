@@ -19,11 +19,11 @@
 #demo .titulo-sec p{color:var(--no-escuro-2)}
 .demo-painel{border-color:rgba(255,255,255,.14)}
 /* dentro do painel o fundo é claro: o foco volta à cor de ação, legível sobre ele */
-.demo-painel :focus-visible{outline-color:var(--acao)}
+.demo-painel :focus-visible{outline-color:#2563EB}
 .demo-cartoes{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;padding:20px}
 
 /* ---------- cartão de sala do painel ---------- */
-.dt-cartao{position:relative;display:flex;flex-direction:column;gap:14px;padding:18px 18px 22px;background:#fff;border:1px solid var(--borda);border-radius:12px;overflow:hidden;color:var(--tinta)}
+.dt-cartao{position:relative;display:flex;flex-direction:column;gap:14px;padding:18px 18px 22px;background:#fff;border:1px solid #E2E8F0;border-radius:12px;overflow:hidden;color:#0F1E30}
 .dt-cabeca{display:flex;align-items:center;justify-content:space-between;gap:8px}
 .dt-nome{font-size:17px;font-weight:700;letter-spacing:-.01em}
 .dt-fase{font-size:13px;font-weight:600;line-height:1.5;padding:2px 10px;border-radius:999px;background:#E2E8F0;color:#334155}
@@ -37,20 +37,20 @@
 .fase-finished .dt-tempo{color:var(--dt-esgotado)}
 .dt-controles,.dt-confirmar-acoes{display:flex;flex-wrap:wrap;align-items:center;gap:8px}
 .dt-confirmar{display:grid;gap:10px}
-.dt-confirmar p{font-size:14px;line-height:1.5;color:var(--texto-2)}
+.dt-confirmar p{font-size:14px;line-height:1.5;color:#4F5E70}
 .dt-btn{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:0 14px;border-radius:8px;border:1px solid transparent;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;white-space:nowrap;transition:background .15s,border-color .15s}
-.dt-primario{background:var(--acao);color:#fff}           /* 5,2:1 */
-.dt-primario:hover{background:var(--acao-forte)}
+.dt-primario{background:#2563EB;color:#fff}           /* 5,2:1 */
+.dt-primario:hover{background:#1D4ED8}
 .dt-pausar{background:var(--dt-pausado);color:#fff}
 .dt-pausar:hover{background:#1E293B}
-.dt-secundario{background:#fff;border-color:#CBD5E1;color:var(--tinta)}
+.dt-secundario{background:#fff;border-color:#CBD5E1;color:#0F1E30}
 .dt-secundario:hover{background:#F1F5F9}
 .dt-perigo{background:#fff;border-color:#F3C4C4;color:#B91C1C}
 .dt-perigo:hover{background:#FEF2F2}
 .dt-perigo-cheio{background:#B91C1C;color:#fff}
 .dt-perigo-cheio:hover{background:#991B1B}
-.dt-duracao{min-height:40px;padding:0 10px;border-radius:8px;border:1px solid #CBD5E1;background:#fff;font:inherit;font-size:14px;font-weight:600;color:var(--tinta);cursor:pointer}
-.dt-presenca{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--texto-2)}
+.dt-duracao{min-height:40px;padding:0 10px;border-radius:8px;border:1px solid #CBD5E1;background:#fff;font:inherit;font-size:14px;font-weight:600;color:#0F1E30;cursor:pointer}
+.dt-presenca{display:flex;align-items:center;gap:8px;font-size:13px;color:#4F5E70}
 .dt-presenca::before{content:"";flex:none;width:8px;height:8px;border-radius:50%;background:#CBD5E1}
 .dt-presenca.ok::before{background:var(--dt-online)}
 .dt-presenca.alerta{color:#B91C1C;font-weight:700}
